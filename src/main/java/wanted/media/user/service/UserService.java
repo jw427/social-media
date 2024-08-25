@@ -8,7 +8,7 @@ import wanted.media.user.domain.Grade;
 import wanted.media.user.domain.User;
 import wanted.media.user.dto.SignUpRequest;
 import wanted.media.user.dto.SignUpResponse;
-import wanted.media.user.dto.UserCreateDto;
+import wanted.media.user.dto.UserInfoDto;
 import wanted.media.user.repository.CodeRepository;
 import wanted.media.user.repository.UserRepository;
 
@@ -51,9 +51,9 @@ public class UserService {
         // 7. 인증코드 db 저장
         codeRepository.save(code);
         // 8. UserCreateDto 생성
-        UserCreateDto userCreateDto = new UserCreateDto(user.getAccount(), user.getEmail());
+        UserInfoDto userInfoDto = new UserInfoDto(user.getAccount(), user.getEmail());
         // 9. SignUpResponse 생성
-        SignUpResponse signUpResponse = new SignUpResponse("회원가입이 성공적으로 완료됐습니다.", userCreateDto, verificationCode);
+        SignUpResponse signUpResponse = new SignUpResponse("회원가입이 성공적으로 완료됐습니다.", userInfoDto, verificationCode);
 
         return signUpResponse;
     }
