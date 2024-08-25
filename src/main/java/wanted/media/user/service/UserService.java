@@ -50,8 +50,8 @@ public class UserService {
                 .build();
         // 7. 인증코드 db 저장
         codeRepository.save(code);
-        // 8. UserCreateDto 생성
-        UserInfoDto userInfoDto = new UserInfoDto(user.getAccount(), user.getEmail());
+        // 8. UserInfoDto 생성
+        UserInfoDto userInfoDto = new UserInfoDto(user.getAccount(), user.getEmail(), user.getGrade());
         // 9. SignUpResponse 생성
         SignUpResponse signUpResponse = new SignUpResponse("회원가입이 성공적으로 완료됐습니다.", userInfoDto, verificationCode);
 
