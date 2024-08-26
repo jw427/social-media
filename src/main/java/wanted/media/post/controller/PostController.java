@@ -1,32 +1,32 @@
-package wanted.media.post.controller;
+package wanted.media.content.controller;
 
-import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import wanted.media.post.dto.PostIdResponse;
-import wanted.media.post.service.PostService;
+import wanted.media.content.domain.Post;
+import wanted.media.content.dto.PostDto;
+import wanted.media.content.service.PostService;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import static org.hibernate.query.sqm.tree.SqmNode.log;
+
 
 @RestController
-@RequestMapping("/api/posts")
-@RequiredArgsConstructor
+@RequestMapping("/posts")
 public class PostController {
-    private final PostService postService;
+    @Autowired
+    private PostService postService;
 
-    @PostMapping("/share/{postId}")
-    public ResponseEntity<?> getShare(@PathVariable(name = "postId") String postId) {
-        try {
-            String id = postService.increaseShare(postId);
-            return ResponseEntity.ok().body(new PostIdResponse<>(id, "공유 수 증가 완료"));
-        } catch (Exception e) {
-            Map<String, String> errorMessage = new HashMap<>();
-            errorMessage.put("공유 수 증가 실패", e.getMessage());
-            return ResponseEntity.internalServerError().body(new PostIdResponse<>(postId, errorMessage));
-        }
+    @GetMapping
+    public List<PostDto> list(@RequestParam(value = "hashtag", required = true) String account) {
+        List<Post> posts = postService.findPosts(account);
+        log.info("Content List : " + posts);
+        return posts.stream()
+                .map(PostDto::allPosts)
+                .collect(Collectors.toList());
     }
 }
