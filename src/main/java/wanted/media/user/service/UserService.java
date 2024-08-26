@@ -4,11 +4,11 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import wanted.media.user.config.TokenProvider;
 import wanted.media.exception.InvalidPasswordException;
 import wanted.media.exception.UserNotFoundException;
 import wanted.media.exception.VerificationCodeExpiredException;
 import wanted.media.exception.VerificationCodeMismatchException;
+import wanted.media.user.config.TokenProvider;
 import wanted.media.user.domain.Code;
 import wanted.media.user.domain.Grade;
 import wanted.media.user.domain.Token;
@@ -19,8 +19,8 @@ import wanted.media.user.repository.TokenRepository;
 import wanted.media.user.repository.UserRepository;
 
 import java.time.LocalDateTime;
-import java.util.Optional;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -31,7 +31,6 @@ public class UserService {
     private final TokenRepository tokenRepository;
     private final TokenProvider tokenProvider;
     private final CodeRepository codeRepository;
-    private final BCryptPasswordEncoder passwordEncoder;
     private final UserValidator userValidator;
     private final GenerateCode generateCode;
 
