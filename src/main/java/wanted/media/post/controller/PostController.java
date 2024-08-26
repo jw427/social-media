@@ -53,4 +53,16 @@ public class PostController {
             return ResponseEntity.internalServerError().body(new PostIdResponse<>(postId, errorMessage));
         }
     }
+
+    @PostMapping("/share/{postId}")
+    public ResponseEntity<?> getShare(@PathVariable(name = "postId") String postId) {
+        try {
+            String id = postService.increaseShare(postId);
+            return ResponseEntity.ok().body(new PostIdResponse<>(id, "공유 수 증가 완료"));
+        } catch (Exception e) {
+            Map<String, String> errorMessage = new HashMap<>();
+            errorMessage.put("공유 수 증가 실패", e.getMessage());
+            return ResponseEntity.internalServerError().body(new PostIdResponse<>(postId, errorMessage));
+        }
+    }
 }
