@@ -1,6 +1,7 @@
 package wanted.media.post.domain;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
@@ -50,6 +51,10 @@ public class Post {
     @JoinColumn(name = "user_id", nullable = false)
     @NotNull
     private User user;
+
+    public void addLikeCount(Long count) {
+        this.likeCount = count + 1;
+    }
 
     public void addShareCount() {
         this.shareCount++;
