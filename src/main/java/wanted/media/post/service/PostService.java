@@ -20,7 +20,8 @@ public class PostService {
         }
 
         // contentId를 통해 게시물의 SNS 유형 조회
-        Post post = postRepository.findById(postId).orElseThrow(() -> new CustomException(ErrorCode.ENTITY_NOT_FOUND));
+        Post post = postRepository.findById(postId)
+                .orElseThrow(() -> new CustomException(ErrorCode.ENTITY_NOT_FOUND));
 
         String snsType = post.getType().name();
         // 외부 SNS API 호출 부분 (기능 개발을 위한 요소로, 실제 동작하지 않음)
