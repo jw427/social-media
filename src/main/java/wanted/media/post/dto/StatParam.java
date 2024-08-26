@@ -1,29 +1,28 @@
-package wanted.media.content.domain.dto;
+package wanted.media.post.dto;
+
+import wanted.media.exception.BadRequestException;
+import wanted.media.exception.ErrorCode;
+import wanted.media.post.domain.CountValueType;
+import wanted.media.post.domain.StatDateType;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.Optional;
 
-import wanted.media.content.domain.CountValueType;
-import wanted.media.content.domain.StatDateType;
-import wanted.media.exception.BadRequestException;
-import wanted.media.exception.ErrorCode;
-
 /**
- *
  * @param hashtag 계정, defaultValue = 본인 계정
- * @param type DATE or HOUR, 필수 값
- * @param start 검색 시작 기간, defaultValue = 오늘로 부터 7일 전
- * @param end 검색 끝 기간, defaultValue = 오늘
- * @param value COUNT or VIEW_COUNT, LIKE_COUNT, SHARE_COUNT, defaultValue = count
+ * @param type    DATE or HOUR, 필수 값
+ * @param start   검색 시작 기간, defaultValue = 오늘로 부터 7일 전
+ * @param end     검색 끝 기간, defaultValue = 오늘
+ * @param value   COUNT or VIEW_COUNT, LIKE_COUNT, SHARE_COUNT, defaultValue = count
  */
 public record StatParam(
-    String hashtag,
-    StatDateType type,
-    LocalDateTime start,
-    LocalDateTime end,
-    CountValueType value) {
+        String hashtag,
+        StatDateType type,
+        LocalDateTime start,
+        LocalDateTime end,
+        CountValueType value) {
 
     public StatParam(String hashtag, StatDateType type, LocalDateTime start, LocalDateTime end, CountValueType value) {
         // JWT 구현시 default 값 변경 예정
@@ -45,7 +44,7 @@ public record StatParam(
 
         // Default 값 설정
         this.type = Optional.ofNullable(type)
-            .orElseThrow(() -> new BadRequestException(ErrorCode.INVALID_PARAMETER));
+                .orElseThrow(() -> new BadRequestException(ErrorCode.INVALID_PARAMETER));
     }
 
     /**

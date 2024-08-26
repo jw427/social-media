@@ -1,9 +1,9 @@
-package wanted.media.content.repository;
+package wanted.media.post.repository;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
-import wanted.media.content.domain.dto.StatParam;
+import wanted.media.post.dto.StatParam;
 
 import static com.querydsl.core.types.ExpressionUtils.count;
 import static wanted.media.post.domain.QPost.post;

@@ -1,4 +1,4 @@
-package wanted.media.content.domain.dto;
+package wanted.media.post.dto;
 
 public record StatResponse(Long count) {
 
