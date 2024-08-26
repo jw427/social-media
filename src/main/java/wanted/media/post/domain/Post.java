@@ -16,6 +16,8 @@ import java.time.LocalDateTime;
 @Getter
 @Table(name = "posts")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
+@Builder
 @EntityListeners(AuditingEntityListener.class)
 public class Post {
     @Id
@@ -29,6 +31,7 @@ public class Post {
     @Size(max = 150)
     @Column(nullable = false)
     private String title;
+
     private String content;
     private String hashtags;
 
@@ -41,16 +44,23 @@ public class Post {
     @ColumnDefault("0")
     private Long shareCount;
 
-    @CreatedDate
-    private LocalDateTime createdAt;
-
     @LastModifiedDate
     private LocalDateTime updatedAt;
+
+    @CreatedDate
+    private LocalDateTime createdAt;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     @NotNull
     private User user;
+
+    public void incrementViewCount() {
+        if (this.viewCount == null) {
+            this.viewCount = 0L;
+        }
+        this.viewCount += 1;
+    }
 
     public void addLikeCount() {
         this.likeCount++;

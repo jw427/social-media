@@ -18,6 +18,15 @@ import wanted.media.post.repository.PostRepository;
 public class PostService {
     private final PostRepository postRepository;
 
+    @Transactional
+    public Post getPost(String postId) {
+        Post post = postRepository.findById(postId)
+                .orElseThrow(() -> new NotFoundException(ErrorCode.ENTITY_NOT_FOUND));
+
+        post.incrementViewCount();
+        return post;
+    }
+
     @Transactional(readOnly = true)
     public Page<Post> findPosts(String account, Type type, String orderBy, String sortDirection, String searchBy, String search, int page, int pageCount) {
         Sort sort = Sort.by(Sort.Direction.fromString(sortDirection), orderBy);
