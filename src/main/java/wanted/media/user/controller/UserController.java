@@ -10,13 +10,22 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import wanted.media.user.dto.SignUpRequest;
 import wanted.media.user.dto.SignUpResponse;
+import wanted.media.user.dto.UserLoginRequestDto;
+import wanted.media.user.dto.UserLoginResponseDto;
 import wanted.media.user.service.UserService;
 
 @RestController
-@RequestMapping("/api/user")
+@RequestMapping("/user")
 @RequiredArgsConstructor
 public class UserController {
+
     private final UserService userService;
+
+    @PostMapping("/login")
+    public ResponseEntity<UserLoginResponseDto> loginUser(@RequestBody UserLoginRequestDto requestDto) {
+        UserLoginResponseDto responseDto = userService.loginUser(requestDto);
+        return ResponseEntity.ok().body(responseDto);
+    }
 
     //회원가입
     @PostMapping("/sign-up")

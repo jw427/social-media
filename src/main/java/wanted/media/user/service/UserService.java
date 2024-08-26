@@ -4,12 +4,11 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import wanted.media.user.config.TokenProvider;
 import wanted.media.user.domain.Code;
 import wanted.media.user.domain.Grade;
 import wanted.media.user.domain.User;
-import wanted.media.user.dto.SignUpRequest;
-import wanted.media.user.dto.SignUpResponse;
-import wanted.media.user.dto.UserCreateDto;
+import wanted.media.user.dto.*;
 import wanted.media.user.repository.CodeRepository;
 import wanted.media.user.repository.UserRepository;
 
@@ -20,10 +19,19 @@ import java.time.LocalDateTime;
 @Transactional
 public class UserService {
     private final UserRepository userRepository;
+    private final TokenProvider tokenProvider;
     private final CodeRepository codeRepository;
     private final BCryptPasswordEncoder passwordEncoder;
     private final UserValidator userValidator;
     private final GenerateCode generateCode;
+
+    public UserLoginResponseDto loginUser(UserLoginRequestDto requestDto) {
+        User user = userRepository.findByAccount(requestDto.getAccount())
+                .orElseThrow(() -> new IllegalArgumentException("account나 password를 다시 확인해주세요."));
+        if (!requestDto.getPassword().equals(user.getPassword())) // password 암호화 저장시 변경하기
+            throw new IllegalArgumentException("account나 password를 다시 확인해주세요.");
+        return new UserLoginResponseDto(user.getUserId(), tokenProvider.makeToken(requestDto.getAccount()));
+    }
 
     //회원가입
     public SignUpResponse signUp(SignUpRequest request) {
