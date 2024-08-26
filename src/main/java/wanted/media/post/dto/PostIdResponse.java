@@ -7,5 +7,5 @@ import lombok.Getter;
 @AllArgsConstructor
 public class PostIdResponse<T> {
     private final String postId;
-    private final T messgae;
+    private final T message;
 }
