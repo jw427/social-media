@@ -7,9 +7,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import wanted.media.content.domain.Post;
-import wanted.media.content.domain.Type;
-import wanted.media.content.repository.PostRepository;
+import wanted.media.post.domain.Post;
+import wanted.media.post.domain.Type;
+import wanted.media.post.repository.PostRepository;
 import wanted.media.user.repository.UserRepository;
 
 @Service
@@ -32,5 +32,4 @@ public class PostService {
 
         return postRepository.findBySearchContaining(account, type, searchBy, search, pageable);
     }
-
 }

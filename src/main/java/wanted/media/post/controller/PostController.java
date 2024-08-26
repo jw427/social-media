@@ -1,4 +1,4 @@
-package wanted.media.content.controller;
+package wanted.media.post.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -6,17 +6,16 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import wanted.media.content.domain.Post;
-import wanted.media.content.domain.Type;
-import wanted.media.content.dto.PostDto;
-import wanted.media.content.service.PostService;
+import wanted.media.post.domain.Post;
+import wanted.media.post.domain.Type;
+import wanted.media.post.dto.PostDto;
+import wanted.media.post.service.PostService;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-
 @RestController
-@RequestMapping("/posts")
+@RequestMapping("/api/posts")
 public class PostController {
     @Autowired
     private PostService postService;
@@ -35,6 +34,9 @@ public class PostController {
                 .map(PostDto::allPosts)
                 .collect(Collectors.toList());
 
+        //System.out.println("PostDtos: " + postDtos);
+
         return postDtos;
     }
+
 }
