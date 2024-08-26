@@ -23,6 +23,7 @@ import java.util.Optional;
 @Transactional
 public class UserService {
     private final UserRepository userRepository;
+    private final BCryptPasswordEncoder passwordEncoder;
     private final TokenRepository tokenRepository;
     private final TokenProvider tokenProvider;
     private final CodeRepository codeRepository;
@@ -34,7 +35,7 @@ public class UserService {
     public UserLoginResponseDto login(UserLoginRequestDto requestDto) {
         User user = userRepository.findByAccount(requestDto.getAccount())
                 .orElseThrow(() -> new IllegalArgumentException("account나 password를 다시 확인해주세요."));
-        if (!requestDto.getPassword().equals(user.getPassword())) // password 암호화 저장시 변경하기
+        if (!passwordEncoder.matches(requestDto.getPassword(), user.getPassword()))
             throw new IllegalArgumentException("account나 password를 다시 확인해주세요.");
 
         Optional<Token> refreshToken = tokenRepository.findByUser_UserId(user.getUserId()); // 리프레시 토큰 있는지 확인
